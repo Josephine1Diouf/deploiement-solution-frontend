@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Formule 2 - Solution Confidence</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <script src="js/paytech-paiement2.js"></script>
+  </head>
+  <body>
+    <div class="container my-5">
+      <div class="row">
+        <div class="col-md-6">
+          <h4 class="text-center mb-4">Informations</h4>
+          <form>
+            <div class="mb-3">
+              <label for="genre"><strong>Genre</strong></label
+              ><br />
+              <div class="gender-options">
+                <label
+                  ><input type="radio" name="genre" value="male" required />
+                  Homme</label
+                >
+                <label
+                  ><input type="radio" name="genre" value="female" />
+                  Femme</label
+                >
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="email"><strong>Votre email</strong></label>
+              <input type="email" class="form-control" id="email" required />
+            </div>
+            <div class="mb-3">
+              <label for="message"><strong>Votre message</strong></label>
+              <textarea
+                class="form-control"
+                rows="10"
+                id="message"
+                placeholder="Donnez le maximum de détails..."
+              ></textarea>
+            </div>
+          </form>
+        </div>
+
+        <div class="col-md-6">
+          <h4 class="text-center mb-4">Votre formule</h4>
+          <div class="card mb-4">
+            <h5 class="card-header">Formule 2</h5>
+            <div class="card-body">
+              <h5 class="card-title">
+                Suivi fraternel (2e réponse pour continuer l’echange sur la meme
+                situation)
+              </h5>
+              <p class="card-text">
+                Pour continuer l’échange sur la même situation avec attention et
+                bienveillance.
+              </p>
+              <div class="d-flex justify-content-between border-top pt-3">
+                <strong>Total</strong>
+                <strong>1500 FCFA</strong>
+              </div>
+            </div>
+          </div>
+          <div class="text-end">
+            <button class="btn btn-primary" id="payerBtn">
+              <span id="submitText">Payer et soumettre</span>
+              <div
+                id="spinner"
+                class="spinner-border spinner-border-sm d-none"
+                role="status"
+              >
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-4">
+        <a href="index.html" class="btn">Retour à la page d'accueil</a>
+      </div>
+    </div>
+    <script>
+      document
+        .getElementById("payerBtn")
+        .addEventListener("click", async function (e) {
+          e.preventDefault();
+
+          // Récupération des données du formulaire
+          const formData = {
+            genre: document.querySelector('input[name="gender"]:checked').value,
+            email: document.getElementById("email").value,
+            message: document.getElementById("message").value,
+            date_inscription: new Date().toLocaleString("fr-FR"),
+          };
+
+          // Validation simple
+          if (!formData.email || !formData.message) {
+            alert("Veuillez remplir tous les champs obligatoires");
+            return;
+          }
+
+          // Afficher le loader
+          const btn = this;
+          btn.disabled = true;
+          btn.innerHTML =
+            '<span class="spinner-border spinner-border-sm"></span> Traitement...';
+
+          try {
+            // Envoi des données au serveur
+            const response = await fetch("/api/paiement2", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(formData),
+            });
+
+            const data = await response.json();
+
+            if (data.success && data.paymentUrl) {
+              // Redirection vers PayTech
+              window.location.href = data.paymentUrl;
+            } else {
+              throw new Error(data.message || "Erreur lors du paiement");
+            }
+          } catch (error) {
+            console.error("Erreur:", error);
+            alert("Erreur: " + error.message);
+            btn.disabled = false;
+            btn.innerHTML = "Payer et s'inscrire";
+          }
+        });
+    </script>
+  </body>
+</html>

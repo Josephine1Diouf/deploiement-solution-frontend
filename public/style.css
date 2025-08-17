@@ -1,0 +1,161 @@
+body {
+  background-color: #f5f7fa;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #2c2c2c;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #e3e9f0;
+  padding: 20px 0;
+  text-align: center;
+  margin-bottom: 5%;
+  border-bottom: 3px solid #c9d6e3;
+}
+
+.navbar h5 {
+  color: #395b9c;
+  font-size: 1.5rem;
+  margin: 0 15px;
+}
+
+.navbar img {
+  height: 70px;
+}
+
+.titre {
+  text-align: center;
+  color: #3b4d61;
+  font-weight: bold;
+  font-size: 2.5rem;
+}
+
+.paragraphe {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #555;
+  margin: 1rem auto;
+}
+
+.card {
+  background-color: #ffffff;
+  border: 2px solid #d4dce5;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+  padding: 1rem;
+}
+
+.card h5 {
+  color: #3b4d61;
+  font-weight: bold;
+}
+
+.card p,
+.card li,
+.card ol {
+  color: #2c2c2c;
+  font-size: 1rem;
+}
+
+.card-header {
+  background-color: #e3e9f0 !important;
+  color: #2c2c2c;
+  font-weight: bold;
+  border-radius: 12px 12px 0 0;
+}
+
+.card-title {
+  color: #3b4d61;
+}
+
+.btn-primary {
+  background-color: #395b9c;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  font-weight: bold;
+  border-radius: 25px;
+  transition: background-color 0.3s ease-in-out;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #2f4a84;
+}
+
+footer {
+  background-color: #e3e9f0;
+  text-align: center;
+  padding: 20px 0;
+  margin-top: 5%;
+  font-size: 0.95rem;
+  border-top: 2px solid #c9d6e3;
+  color: #555;
+}
+
+footer .icon {
+  margin-top: 10px;
+  font-size: 1.2rem;
+}
+
+footer i {
+  margin: 0 10px;
+  color: #395b9c;
+}
+
+/* Formulaires */
+form label {
+  color: #2c2c2c;
+  font-weight: bold;
+}
+
+form input[type="email"],
+form textarea {
+  border: 1px solid #ccd5e0;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 5px;
+  width: 100%;
+}
+
+form textarea {
+  resize: vertical;
+}
+
+/* Boutons simples */
+button {
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  background-color: #c9d6e3;
+  color: #2c2c2c;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+button a {
+  text-decoration: none;
+  color: #2c2c2c;
+}
+
+button:hover {
+  background-color: #395b9c;
+  color: #fff;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .card {
+    width: 100% !important;
+  }
+
+  .container img {
+    width: 100% !important;
+    padding: 0 !important;
+  }
+
+  .btn {
+    width: 100%;
+  }
+}
