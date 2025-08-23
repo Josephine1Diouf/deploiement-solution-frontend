@@ -29,7 +29,7 @@ async function processPayment() {
     }
 
     // Appel API
-    const response = await fetch("https://solution-backend-2.onrender.com/api/payment2", {
+    const response = await fetch("https://solution-backend-mlk5.onrender.com/api/payment2", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
