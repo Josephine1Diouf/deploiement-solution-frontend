@@ -27,7 +27,7 @@ async function processPayment() {
     }
 
     // 🔥 CORRECTION : URL complète avec le bon endpoint
-    const response = await fetch("https://solution-backend-2.onrender.com/api/paiement1", {
+    const response = await fetch("https://solution-backend-mlk5.onrender.com/api/paiement1", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
