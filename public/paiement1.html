@@ -8,6 +8,36 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Nunito', sans-serif;
+      background-color: #f8f9fa;
+    }
+    .gender-options {
+      display: flex;
+      gap: 20px;
+      margin-top: 8px;
+    }
+    .card {
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .btn-primary {
+      background-color: #0d6efd;
+      border: none;
+      padding: 12px 30px;
+      font-weight: 600;
+      border-radius: 8px;
+    }
+    .btn-primary:hover {
+      background-color: #0b5ed7;
+      transform: translateY(-2px);
+    }
+    .spinner-border {
+      vertical-align: middle;
+      margin-left: 8px;
+    }
+  </style>
 </head>
 <body>
   <div class="container my-5">
@@ -18,17 +48,21 @@
           <div class="mb-3">
             <label><strong>Genre</strong></label><br />
             <div class="gender-options">
-              <label><input type="radio" name="genre" value="male" required /> Homme</label>
-              <label><input type="radio" name="genre" value="female" /> Femme</label>
+              <label class="me-3">
+                <input type="radio" name="genre" value="male" required /> Homme
+              </label>
+              <label>
+                <input type="radio" name="genre" value="female" /> Femme
+              </label>
             </div>
           </div>
           <div class="mb-3">
-            <label for="email"><strong>Votre email</strong></label>
-            <input type="email" class="form-control" id="email" required />
+            <label for="email" class="form-label"><strong>Votre email</strong></label>
+            <input type="email" class="form-control" id="email" required placeholder="votre@email.com" />
           </div>
           <div class="mb-3">
-            <label for="message"><strong>Votre message</strong></label>
-            <textarea class="form-control" rows="10" id="message" required placeholder="Donnez le maximum de détails..."></textarea>
+            <label for="message" class="form-label"><strong>Votre message</strong></label>
+            <textarea class="form-control" rows="8" id="message" required placeholder="Décrivez votre situation en détail..."></textarea>
           </div>
         </form>
       </div>
@@ -36,21 +70,30 @@
       <div class="col-md-6">
         <h4 class="text-center mb-4">Votre formule</h4>
         <div class="card mb-4">
-          <h5 class="card-header">Formule 1</h5>
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Formule 1</h5>
+          </div>
           <div class="card-body">
-            <h5 class="card-title">Lettre de réponse personnalisée</h5>
-            <p class="card-text">Réponse soignée, conseils adaptés à la situation.</p>
+            <h5 class="card-title text-primary">Lettre de réponse personnalisée</h5>
+            <p class="card-text">
+              Réponse soignée et conseils adaptés à votre situation personnelle.
+            </p>
+            <ul class="list-group list-group-flush mb-3">
+              <li class="list-group-item">✓ Réponse détaillée sous 24h</li>
+              <li class="list-group-item">✓ Conseils personnalisés</li>
+              <li class="list-group-item">✓ Support bienveillant</li>
+            </ul>
             <div class="d-flex justify-content-between border-top pt-3">
-              <strong>Total</strong>
-              <strong>1000 FCFA</strong>
+              <strong class="fs-5">Total</strong>
+              <strong class="fs-5 text-primary">1000 FCFA</strong>
             </div>
           </div>
         </div>
         <div class="text-end">
-          <button class="btn btn-primary" id="payerBtn">
+          <button class="btn btn-primary btn-lg" id="payerBtn">
             <span id="submitText">Payer et soumettre</span>
             <div id="spinner" class="spinner-border spinner-border-sm d-none" role="status">
-              <span class="visually-hidden">Loading...</span>
+              <span class="visually-hidden">Chargement...</span>
             </div>
           </button>
         </div>
@@ -58,24 +101,26 @@
     </div>
 
     <div class="text-center mt-4">
-      <a href="index.html" class="btn btn-outline-primary">Retour à la page d'accueil</a>
+      <a href="index.html" class="btn btn-outline-primary">← Retour à l'accueil</a>
     </div>
   </div>
 
   <script>
     document.addEventListener("DOMContentLoaded", function() {
       const payerBtn = document.getElementById("payerBtn");
+      const submitText = document.getElementById("submitText");
+      const spinner = document.getElementById("spinner");
       
       payerBtn.addEventListener("click", async function(e) {
         e.preventDefault();
         
         // Activer le loader
         payerBtn.disabled = true;
-        document.getElementById("submitText").textContent = "Traitement...";
-        document.getElementById("spinner").classList.remove("d-none");
+        submitText.textContent = "Traitement en cours...";
+        spinner.classList.remove("d-none");
 
         try {
-          // 🔥 CORRECTION : "genre" au lieu de "gender"
+          // Récupération et validation des données
           const genreInput = document.querySelector('input[name="genre"]:checked');
           if (!genreInput) {
             throw new Error("Veuillez sélectionner votre genre");
@@ -84,8 +129,12 @@
           const email = document.getElementById("email").value.trim();
           const message = document.getElementById("message").value.trim();
 
-          if (!email || !message) {
-            throw new Error("Veuillez remplir tous les champs obligatoires");
+          if (!email) {
+            throw new Error("Veuillez saisir votre email");
+          }
+
+          if (!message) {
+            throw new Error("Veuillez saisir votre message");
           }
 
           if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
@@ -99,7 +148,9 @@
             date_inscription: new Date().toLocaleString("fr-FR"),
           };
 
-          // 🔥 CORRECTION : URL complète avec le bon endpoint
+          console.log("Envoi des données au backend...");
+
+          // 🔥 URL ABSOLUE vers votre backend Render
           const response = await fetch("https://solution-backend-2.onrender.com/api/paiement1", {
             method: "POST",
             headers: {
@@ -110,10 +161,15 @@
 
           const data = await response.json();
 
+          if (!response.ok) {
+            throw new Error(data.error || "Erreur serveur");
+          }
+
           if (data.success && data.paymentUrl) {
+            console.log("Redirection vers:", data.paymentUrl);
             window.location.href = data.paymentUrl;
           } else {
-            throw new Error(data.error || "Erreur lors du paiement");
+            throw new Error("Lien de paiement non reçu");
           }
         } catch (error) {
           console.error("Erreur:", error);
@@ -121,8 +177,8 @@
           
           // Réinitialiser le bouton
           payerBtn.disabled = false;
-          document.getElementById("submitText").textContent = "Payer et soumettre";
-          document.getElementById("spinner").classList.add("d-none");
+          submitText.textContent = "Payer et soumettre";
+          spinner.classList.add("d-none");
         }
       });
     });
