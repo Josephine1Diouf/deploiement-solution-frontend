@@ -3,33 +3,31 @@ async function processPayment() {
   const submitText = document.getElementById("submitText");
   const spinner = document.getElementById("spinner");
 
-  // Désactiver bouton et montrer spinner
   btn.disabled = true;
   submitText.textContent = "Traitement...";
   spinner.classList.remove("d-none");
 
   try {
-    // Récupérer les valeurs du formulaire
+    // 🔥 CORRECTION : "genre" au lieu de "gender"
     const genreInput = document.querySelector('input[name="genre"]:checked');
+    if (!genreInput) {
+      throw new Error("Veuillez sélectionner votre genre");
+    }
 
     const formData = {
-      genre: genreInput ? genreInput.value : "",
+      genre: genreInput.value,
       email: document.getElementById("email").value.trim(),
       message: document.getElementById("message").value.trim(),
       date_inscription: new Date().toLocaleString("fr-FR"),
     };
 
-    // Validation de base
-    for (const [key, value] of Object.entries(formData)) {
-      if (!value) {
-        alert(`Veuillez remplir le champ: ${key}`);
-        resetButton();
-        return;
-      }
+    // Validation
+    if (!formData.email || !formData.message) {
+      throw new Error("Veuillez remplir tous les champs obligatoires");
     }
 
-    // Appel API
-    const response = await fetch("https://solution-backend-2.onrender.com/api/payment1", {
+    // 🔥 CORRECTION : URL complète avec le bon endpoint
+    const response = await fetch("https://solution-backend-2.onrender.com/api/paiement1", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -43,8 +41,8 @@ async function processPayment() {
       throw new Error(data.error || "Erreur lors de l'inscription.");
     }
 
-    if (data.redirect_url) {
-      window.location.href = data.redirect_url;
+    if (data.paymentUrl) {
+      window.location.href = data.paymentUrl;
     } else {
       throw new Error("Lien de paiement introuvable.");
     }
@@ -64,7 +62,6 @@ function resetButton() {
   spinner.classList.add("d-none");
 }
 
-// Attacher l’événement quand le DOM est prêt
 document.addEventListener("DOMContentLoaded", () => {
   const btn = document.getElementById("payerBtn");
   if (btn) {
