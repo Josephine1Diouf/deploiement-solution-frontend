@@ -27,13 +27,16 @@ async function processPayment() {
     }
 
     // 🔥 CORRECTION : URL complète avec le bon endpoint
-    const response = await fetch("https://solution-backend-mlk5.onrender.com/api/paiement1", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
+    const response = await fetch(
+      "https://www.solutionconfidence.com/api/paiement1",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      }
+    );
 
     const data = await response.json();
 
@@ -66,5 +69,5 @@ document.addEventListener("DOMContentLoaded", () => {
   const btn = document.getElementById("payerBtn");
   if (btn) {
     btn.addEventListener("click", processPayment);
-  }
+  }
 });
