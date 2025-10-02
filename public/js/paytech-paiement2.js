@@ -22,7 +22,7 @@ async function processPayment() {
     // Validation de base
     for (const [key, value] of Object.entries(formData)) {
       if (!value) {
-        alert(Veuillez remplir le champ: ${key});
+        alert(`Veuillez remplir le champ: ${key}`);
         resetButton();
         return;
       }
@@ -30,7 +30,7 @@ async function processPayment() {
 
     // Appel API
     const response = await fetch(
-      "https://www.solutionconfidence.com/api/paiement2",
+      "https://solution-backend-mlk5.onrender.com/api/paiement2",
       {
         method: "POST",
         headers: {
@@ -72,5 +72,5 @@ document.addEventListener("DOMContentLoaded", () => {
   const btn = document.getElementById("payerBtn");
   if (btn) {
     btn.addEventListener("click", processPayment);
-  }
+  }
 });
