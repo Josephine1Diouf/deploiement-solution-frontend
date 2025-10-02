@@ -22,20 +22,23 @@ async function processPayment() {
     // Validation de base
     for (const [key, value] of Object.entries(formData)) {
       if (!value) {
-        alert(`Veuillez remplir le champ: ${key}`);
+        alert(Veuillez remplir le champ: ${key});
         resetButton();
         return;
       }
     }
 
     // Appel API
-    const response = await fetch("https://solution-backend-mlk5.onrender.com/api/payment3", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
+    const response = await fetch(
+      "https://www.solutionconfidence.com/api/paiement3",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      }
+    );
 
     const data = await response.json();
 
@@ -69,5 +72,5 @@ document.addEventListener("DOMContentLoaded", () => {
   const btn = document.getElementById("payerBtn");
   if (btn) {
     btn.addEventListener("click", processPayment);
-  }
+  }
 });
